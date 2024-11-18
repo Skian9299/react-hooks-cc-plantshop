@@ -12,14 +12,14 @@
       "name": "ZZ Plant",
       "image": "./images/zz-plant.jpg",
       "price": 25.98,
-      "soldOut": false
+      "soldOut": true
     },
     {
       "id": 3,
       "name": "Pilea peperomioides",
       "image": "./images/pilea.jpg",
       "price": 5.99,
-      "soldOut": true
+      "soldOut": false
     },
     {
       "id": 4,
@@ -56,13 +56,15 @@
       "name": "zz Plant",
       "image": "http://localhost:3000/images/zz-plant.jpg",
       "price": 25.98,
-      "id": 9
+      "id": 9,
+      "soldOut": false
     },
     {
       "name": "Aloe",
       "image": "images/aloe.jpg",
       "price": 15.99,
-      "id": 10
+      "id": 10,
+      "soldOut": false
     }
   ]
 }

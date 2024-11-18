@@ -1,26 +1,46 @@
 import React, { useState } from "react";
 
 function NewPlantForm({ onAddPlant }) {
-  const [name, setName] = useState("");
-  const [image, setImage] = useState("");
-  const [price, setPrice] = useState("");
+  // Initialize state with default values
+  const [plantName, setName] = useState('');
+  const [image, setImage] = useState('');
+  const [price, setPrice] = useState('');
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  function handleSubmit(e) {
     e.preventDefault();
 
-    const newPlant = {
-      name,
-      image,
-      price: parseFloat(price),
+    // Create the new plant object
+    const plantObject = {
+      name: plantName,
+      image: image,
+      price: parseFloat(price), // Ensure price is a number
     };
 
-    onAddPlant(newPlant); // Pass the new plant to the parent component
+    // Send the new plant data to the server
+    fetch('http://localhost:3003/plants', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(plantObject),
+    })
+    .then((r) => r.json())
+    .then((data) => {
+      console.log("New plant added:", data);
 
-    // Reset form fields
-    setName("");
-    setImage("");
-    setPrice("");
-  };
+      // Pass the newly added plant data to the parent component
+      onAddPlant(data);
+
+      // Optionally clear the form fields after successful submission
+      setName('');
+      setImage('');
+      setPrice('');
+    })
+    .catch((error) => {
+      console.error('Error adding plant:', error);
+    });
+  }
 
   return (
     <div className="new-plant-form">
@@ -29,13 +49,15 @@ function NewPlantForm({ onAddPlant }) {
         <input
           type="text"
           name="name"
+          required
           placeholder="Plant name"
-          value={name}
+          value={plantName}
           onChange={(e) => setName(e.target.value)}
         />
         <input
           type="text"
           name="image"
+          required
           placeholder="Image URL"
           value={image}
           onChange={(e) => setImage(e.target.value)}
@@ -43,6 +65,7 @@ function NewPlantForm({ onAddPlant }) {
         <input
           type="number"
           name="price"
+          required
           step="0.01"
           placeholder="Price"
           value={price}

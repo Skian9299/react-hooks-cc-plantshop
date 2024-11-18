@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
-function Search({ setSearchQuery }) {
+function Search({ onSearch }) {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Handle search input change
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+    const query = e.target.value;
+    setSearchQuery(query);
+    onSearch(query); // Pass the search query to the parent component
   };
 
   return (
@@ -12,6 +17,7 @@ function Search({ setSearchQuery }) {
         type="text"
         id="search"
         placeholder="Type a name to search..."
+        value={searchQuery}
         onChange={handleSearchChange}
       />
     </div>
